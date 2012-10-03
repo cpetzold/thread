@@ -1,4 +1,5 @@
 #import "Thread.h"
+
 #include <iostream>
 using namespace std;
 
@@ -7,6 +8,9 @@ void Thread::init() {
 
   mg::Color gray(20, 20, 20);
   this->setBackgroundColor(gray);
+
+  this->player = new Player;
+  this->layers[0].push_back(this->player);
 }
 
 void Thread::handleInput(double dt) {
@@ -21,4 +25,8 @@ void Thread::handleInput(double dt) {
 
 void Thread::update(double dt) {
   mg::Game::update(dt);
+}
+
+void Thread::draw(double dt) {
+  mg::Game::draw(dt);
 }

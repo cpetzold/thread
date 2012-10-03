@@ -1,5 +1,5 @@
 BUILD=build
-SOURCE=src/main.cc src/Thread.cc
+SOURCE=src/main.cc src/Thread.cc src/Player.cc
 BIN=$(BUILD)/thread
 
 CC=g++
