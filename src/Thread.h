@@ -7,6 +7,8 @@ class Thread: public mg::Game {
   public:
     Thread() : mg::Game("Thread", 800, 600) {};
 
+    virtual void init();
+    virtual void handleInput(double dt);
     virtual void update(double dt);
 };
 
