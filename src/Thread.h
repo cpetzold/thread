@@ -4,6 +4,7 @@
 #import "mage.h"
 
 #import "Player.h"
+#import "Terrain.h"
 
 class Thread: public mg::Game {
   public:
@@ -16,6 +17,7 @@ class Thread: public mg::Game {
 
   private:
     Player* player;
+    Terrain* terrain;
 };
 
 #endif
