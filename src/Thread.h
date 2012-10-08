@@ -12,6 +12,7 @@ class Thread: public mg::Game {
 
     virtual void init();
     virtual void handleInput(double dt);
+    virtual void handleResize(GLint w, GLint h);
     virtual void update(double dt);
     virtual void draw(double dt);
 

@@ -4,9 +4,9 @@
 using namespace std;
 
 void Thread::init() {
-  mg::Game::init();
+  Game::init();
 
-  mg::Color gray(20, 20, 20);
+  Color gray(20, 20, 20);
   this->setBackgroundColor(gray);
 
   this->player = new Player(Vec(150.0, 100.0));
@@ -17,19 +17,27 @@ void Thread::init() {
 }
 
 void Thread::handleInput(double dt) {
-  if (mg::Input::keyPressed('P')) {
+  if (Input::keyPressed('P')) {
     this->togglePause();
   }
 
-  if (mg::Input::keyPressed(GLFW_KEY_ESC)) {
+  if (Input::keyPressed(GLFW_KEY_ESC)) {
     this->quit(0);
   }
 }
 
+void Thread::handleResize(GLint w, GLint h) {
+  Game::handleResize(w, h);
+
+  if (this->terrain) {
+    this->terrain->resize(w, h);
+  }
+}
+
 void Thread::update(double dt) {
-  mg::Game::update(dt);
+  Game::update(dt);
 }
 
 void Thread::draw(double dt) {
-  mg::Game::draw(dt);
+  Game::draw(dt);
 }

@@ -5,31 +5,49 @@
 #include <iostream>
 using namespace std;
 
+void Terrain::resize(GLint w, GLint h) {
+  this->width = w;
+  this->height = h;
+}
+
 void Terrain::update(GLdouble dt) {
+  for (GLint i = 0; i < 3; i++) {
+    GLfloat topPoint = 100.0 + this->perlinNoise(this->topStep++, 0.015, 200.0);
+    GLfloat bottomPoint = 100.0 + this->perlinNoise(this->bottomStep++, 0.015, 200.0);
 
-  GLfloat point = 100.0 + this->perlinNoise(this->pos.x++, 0.1, 100.0);
+    this->topPoints.push_back(topPoint);
+    this->bottomPoints.push_back(bottomPoint);
 
-  // cout << this->pos.x << 'x' << point << endl;
-
-  this->points.push_back(point);
-
-  if (this->points.size() > this->width) {
-    this->points.pop_front();
+    if (this->topPoints.size() > this->width) {
+      this->topPoints.pop_front();
+    }
+    if (this->bottomPoints.size() > this->width) {
+      this->bottomPoints.pop_front();
+    }
   }
 }
 
 void Terrain::draw(GLdouble dt) const {
   glPushMatrix();
-
-  glBegin(GL_TRIANGLE_STRIP);
+  glTranslatef(this->pos.x, this->pos.y, 0);
   glColor4f(1, 1, 1, 1);
 
-  for (int i = 0; i < this->points.size(); i++) {
-    glVertex2f(i*3, this->points[i]);
-    glVertex2f(i*3, 0);
+  // Draw top
+  glBegin(GL_TRIANGLE_STRIP);
+  for (int i = 0; i < this->topPoints.size(); i++) {
+    glVertex2f(i, this->topPoints[i]);
+    glVertex2f(i, 0);
   }
-
   glEnd();
+
+  // Draw bottom
+  glBegin(GL_TRIANGLE_STRIP);
+  for (int i = 0; i < this->bottomPoints.size(); i++) {
+    glVertex2f(i, this->bottomPoints[i] + this->height - 200);
+    glVertex2f(i, this->height);
+  }
+  glEnd();
+
   glPopMatrix();
 }
 

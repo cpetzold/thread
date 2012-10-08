@@ -11,13 +11,17 @@ using namespace mg;
 
 class Terrain: public Sprite {
   public:
-    GLint width, height;
-    std::deque<GLfloat> points;
+    GLint width, height, topStep, bottomStep;
+    std::deque<GLfloat> topPoints;
+    std::deque<GLfloat> bottomPoints;
 
     Terrain(GLint w, GLint h) : Sprite(), width(w), height(h) {
       srand(time(0));
+      this->topStep = 0;
+      this->bottomStep = 10000;
     };
 
+    void resize(GLint w, GLint h);
     virtual void update(GLdouble dt);
     virtual void draw(GLdouble dt) const;
 
