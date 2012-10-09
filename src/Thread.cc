@@ -9,8 +9,8 @@ void Thread::init() {
   Color gray(20, 20, 20);
   this->setBackgroundColor(gray);
 
-  this->player = new Player(Vec(150.0, 100.0));
-  this->terrain = new Terrain(800, 600);
+  this->player = new Player(Vec(200.0, 250.0));
+  this->terrain = new Terrain(this->width, this->height);
 
   this->layers[0].push_back(this->terrain);
   this->layers[1].push_back(this->player);

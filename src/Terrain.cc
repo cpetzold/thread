@@ -3,17 +3,23 @@
 #include <math.h>
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 void Terrain::resize(GLint w, GLint h) {
   this->width = w;
   this->height = h;
+  this->pos.y = (this->height / 2) - this->clearance;
 }
 
 void Terrain::update(GLdouble dt) {
-  for (GLint i = 0; i < 3; i++) {
-    GLfloat topPoint = 100.0 + this->perlinNoise(this->topStep++, 0.015, 200.0);
-    GLfloat bottomPoint = 100.0 + this->perlinNoise(this->bottomStep++, 0.015, 200.0);
+  if (this->clearance > 100) {
+    this->clearance -= 0.1;
+  }
+  
+  for (GLint i = 0; i < 4; i++) {
+    GLfloat topPoint = this->variance + this->perlinNoise(this->topStep++, 0.008, this->variance);
+    GLfloat bottomPoint = topPoint + this->clearance + max(0.0f, this->perlinNoise(this->bottomStep++, 0.008, this->variance));
 
     this->topPoints.push_back(topPoint);
     this->bottomPoints.push_back(bottomPoint);
@@ -36,14 +42,14 @@ void Terrain::draw(GLdouble dt) const {
   glBegin(GL_TRIANGLE_STRIP);
   for (int i = 0; i < this->topPoints.size(); i++) {
     glVertex2f(i, this->topPoints[i]);
-    glVertex2f(i, 0);
+    glVertex2f(i, -this->pos.y);
   }
   glEnd();
 
   // Draw bottom
   glBegin(GL_TRIANGLE_STRIP);
   for (int i = 0; i < this->bottomPoints.size(); i++) {
-    glVertex2f(i, this->bottomPoints[i] + this->height - 200);
+    glVertex2f(i, this->bottomPoints[i]);
     glVertex2f(i, this->height);
   }
   glEnd();

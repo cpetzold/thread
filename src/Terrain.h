@@ -12,6 +12,7 @@ using namespace mg;
 class Terrain: public Sprite {
   public:
     GLint width, height, topStep, bottomStep;
+    GLfloat variance, clearance;
     std::deque<GLfloat> topPoints;
     std::deque<GLfloat> bottomPoints;
 
@@ -19,6 +20,10 @@ class Terrain: public Sprite {
       srand(time(0));
       this->topStep = 0;
       this->bottomStep = 10000;
+      this->variance = 200.0;
+      this->clearance = 400.0;
+
+      this->pos.y = (this->height / 2) - this->variance * 2;
     };
 
     void resize(GLint w, GLint h);

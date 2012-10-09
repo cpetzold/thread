@@ -1,20 +1,21 @@
-BUILD=build
-SOURCE=src/main.cc src/Thread.cc src/Player.cc src/Terrain.cc
-BIN=$(BUILD)/thread
+CC=c++
 
-CC=g++
+BUILD=build
+SOURCE=$(wildcard src/*.cc)
+BIN=$(BUILD)/thread
 
 MAGEPATH=../mage
 INCPATH=$(MAGEPATH)/src
 LIBPATH=$(MAGEPATH)/lib
 
-CCFLAGS=-I $(INCPATH) -L $(LIBPATH) -lmage -arch x86_64 -framework OpenGL -framework Cocoa -lglfw -Wall
+CCFLAGS=-I$(INCPATH) -Wall
+LDFLAGS=-L$(LIBPATH) -Llib -lmage -framework OpenGL -framework Cocoa -lglfw
 
 all: compile run
 
 compile: clean
 	mkdir -p $(BUILD)
-	$(CC) $(SOURCE) -o $(BIN) $(CCFLAGS)
+	$(CC) $(SOURCE) -o $(BIN) $(CCFLAGS) $(LDFLAGS)
 
 run:
 	./$(BIN)
